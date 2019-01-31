@@ -20,8 +20,13 @@ public class HDT2 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        String archivo; 
+        MyCalculator calculadora;
+        calculadora = new MyCalculator();
         
+        MyStack fifo;
+        fifo = new MyStack();
+        
+        String archivo; 
         FileReader lector;
         BufferedReader lector1;
         String datos;
@@ -29,7 +34,20 @@ public class HDT2 {
             lector = new FileReader(archivo);
             lector1 = new BufferedReader(lector);
             while ((datos=lector1.readLine())!=null){
-            
+                String partes[] = datos.split(" ");
+                for (int i=0; i<partes.length; i++){
+                    boolean convertir;
+                    try{
+                        Integer.parseInt(partes[i]);
+                        convertir=true;
+                    }
+                    catch(NumberFormatException e){
+                        convertir = false;
+                    }
+                    if (convertir){
+                        Integer.parseInt(partes[i]);
+                    }
+                }
             }  
         }
         catch(FileNotFoundException e){
