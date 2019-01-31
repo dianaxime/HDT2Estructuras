@@ -36,20 +36,21 @@ public class HDT2 {
             while ((datos=lector1.readLine())!=null){
                 String partes[] = datos.split(" ");
                 for (int i=0; i<partes.length; i++){
-                    boolean convertir;
                     try{
-                        Integer.parseInt(partes[i]);
-                        convertir=true;
-                    }
-                    catch(NumberFormatException e){
-                        convertir = false;
-                    }
-                    if (convertir){
                         fifo.push(Integer.parseInt(partes[i]));
                     }
-                    else if (partes[i]=="+" || partes[i]=="-" || partes[i]=="*" || partes[i]=="/" ){
-                        calculadora.calculate(fifo.pop(), fifo.pop(), partes[i]);
-                    }
+                    catch(NumberFormatException e){
+                       if (partes[i]=="+" || partes[i]=="-" || partes[i]=="*" || partes[i]=="/" ){
+                            int resultado;
+                            try{
+                                resultado = calculadora.calculate(fifo.pop(), fifo.pop(), partes[i]);
+                                fifo.push(resultado);
+                            }
+                            catch(ArithmeticException c){
+
+                            }
+                        } 
+                    }  
                 }
             }  
         }
