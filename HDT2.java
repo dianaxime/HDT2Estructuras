@@ -23,8 +23,8 @@ public class HDT2 {
         MyCalculator calculadora;
         calculadora = new MyCalculator();
         
-        MyStack fifo;
-        fifo = new MyStack();
+        MyStack<Integer> fifo;
+        fifo = new MyStack<Integer>();
         
         String archivo; 
         FileReader lector;
@@ -45,7 +45,10 @@ public class HDT2 {
                         convertir = false;
                     }
                     if (convertir){
-                        Integer.parseInt(partes[i]);
+                        fifo.push(Integer.parseInt(partes[i]));
+                    }
+                    else if (partes[i]=="+" || partes[i]=="-" || partes[i]=="*" || partes[i]=="/" ){
+                        calculadora.calculate(fifo.pop(), fifo.pop(), partes[i]);
                     }
                 }
             }  
