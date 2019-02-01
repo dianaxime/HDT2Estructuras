@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hdt2;
+//package hdt2;
 
 /**
  *
@@ -42,6 +42,7 @@ public class Main extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,6 +64,8 @@ public class Main extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
+        jLabel1.setText("Resultados:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -70,28 +73,31 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(88, 88, 88)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(jButton1)))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(25, 25, 25)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addGap(18, 18, 18)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGap(36, 36, 36)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(29, Short.MAX_VALUE))
         );
@@ -101,46 +107,61 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        //abre un buscador para encontrar el archivo
         JFileChooser archivo = new JFileChooser();
         archivo.showOpenDialog(this);
-            /**abrimos el archivo seleccionado*/
+        //coloca la direccion del archivo seleccionado en el TextField
         File miarchivo = archivo.getSelectedFile();
         jTextField1.setText(miarchivo.getAbsolutePath());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        //Toma el texto de JtextField
         String miarchivo= jTextField1.getText();
+        //Instancia calculadora
         MyCalculator calculadora;
         calculadora = new MyCalculator();
 
+        //Instancia el stack
         MyStack<Integer> fifo;
         fifo = new MyStack<>();
         
+        //crea un lector de archivos 
         FileReader lector;
         BufferedReader lector1;
         String datos;
         try{
+            // lee el archivo
             lector = new FileReader(miarchivo);
             lector1 = new BufferedReader(lector);
+            //lee una linea del archivo 
             datos= lector1.readLine();
+            //verifica que tenga contenido
             while (datos!=null){
+                //elimina los espacios
                String partes[] = datos.split(" ");
+               //recorre las partes 
                for (int i=0; i<partes.length; i++){
+                   //si es un operador extrae los valores y realiza la operacion
                    if ((partes[i].equals("+"))||(partes[i].equals("-"))||(partes[i].equals("*"))||(partes[i].equals("/"))){
                        int resultado;
                        resultado = calculadora.calculate(fifo.pop(), fifo.pop(), partes[i]);
                        fifo.push(resultado);                    
                     }
+                   // sino ingresa el numero
                    else{
                        fifo.push(Integer.parseInt(partes[i]));
                   }
                }
+               //muestra el resultado de la linea de texto 
                jTextArea1.setEditable(true);
                jTextArea1.append(fifo.peek() + "\n");
+               //lee otra linea
                datos= lector1.readLine();
             }
         }
+        //captura erroes de division entre cero, no encuentre el archivo o que no sea un numero
         catch(ArithmeticException | IOException | NumberFormatException e){
             
         }
@@ -185,6 +206,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JFileChooser jFileChooser1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;

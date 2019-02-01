@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hdt2;
+//package hdt2;
 
 /**
  *
@@ -26,31 +26,31 @@ public class MyStack<E> implements Stack<E> {
     
     @Override
     public void push(E item){
-        //
+        //añade un elemento
         mivector.addElement(item); 
     }
    
     @Override
    public E pop(){
-       
+       //returna y elimina el ultimo elemento
        return mivector.remove(mivector.size()-1);
    }
    
     @Override
    public E peek(){
-       
+       //retorna el ultimo valor 
        return mivector.get(mivector.size()-1);
    }
    
     @Override
    public boolean empty(){
-       
+       //retorna true/false dependiendo si esta vacio
        return size()==0;
    }
    
     @Override
    public int size(){
-       
+       //retorna el tamaño del vector
        return mivector.size();
    }  
 }
