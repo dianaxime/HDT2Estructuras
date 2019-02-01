@@ -15,28 +15,29 @@ public class MyStack<E> implements Stack<E> {
     
     protected Vector<E> mivector;
     
-    public void MyStack(){
+    public MyStack(){
     
     mivector = new Vector<>(10,2);
+    System.out.println(mivector);
+            
     
     }
     
     @Override
     public void push(E item){
-        
         mivector.addElement(item); 
     }
    
     @Override
    public E pop(){
        
-       return mivector.remove(mivector.size());
+       return mivector.remove(mivector.size()-1);
    }
    
     @Override
    public E peek(){
        
-       return mivector.get(mivector.size());
+       return mivector.get(mivector.size()-1);
    }
    
     @Override
