@@ -17,7 +17,7 @@ public class MyStack<E> implements Stack<E> {
     
     public void MyStack(){
     
-    mivector = new Vector<E>(10,2);
+    mivector = new Vector<>(10,2);
     
     }
     
@@ -30,13 +30,13 @@ public class MyStack<E> implements Stack<E> {
     @Override
    public E pop(){
        
-       return mivector.remove(mivector.size()-1);
+       return mivector.remove(mivector.size());
    }
    
     @Override
    public E peek(){
        
-       return mivector.get(mivector.size()-1);
+       return mivector.get(mivector.size());
    }
    
     @Override
