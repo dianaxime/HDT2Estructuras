@@ -21,26 +21,31 @@ public class MyStack<E> implements Stack<E> {
     
     }
     
+    @Override
     public void push(E item){
         
         mivector.addElement(item); 
     }
    
+    @Override
    public E pop(){
        
        return mivector.remove(mivector.size()-1);
    }
    
+    @Override
    public E peek(){
        
        return mivector.get(mivector.size()-1);
    }
    
+    @Override
    public boolean empty(){
        
        return size()==0;
    }
    
+    @Override
    public int size(){
        
        return mivector.size();

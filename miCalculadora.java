@@ -9,6 +9,14 @@ package hdt2;
  *
  * @author DIANA
  */
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 public class miCalculadora extends javax.swing.JFrame {
 
     /**
@@ -16,6 +24,7 @@ public class miCalculadora extends javax.swing.JFrame {
      */
     public miCalculadora() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -28,73 +37,106 @@ public class miCalculadora extends javax.swing.JFrame {
     private void initComponents() {
 
         jFileChooser1 = new javax.swing.JFileChooser();
-        jInternalFrame1 = new javax.swing.JInternalFrame();
-        jButton1 = new javax.swing.JButton();
         jOptionPane1 = new javax.swing.JOptionPane();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jInternalFrame1.setBackground(new java.awt.Color(204, 255, 204));
-        jInternalFrame1.setClosable(true);
-        jInternalFrame1.setVisible(true);
-
-        jButton1.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
-        jButton1.setText("Buscar archivo");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jButton2 = new javax.swing.JButton();
 
         jOptionPane1.setBorder(null);
 
-        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
-        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
-        jInternalFrame1Layout.setHorizontalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(jButton1))
-                    .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jOptionPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(34, Short.MAX_VALUE))
-        );
-        jInternalFrame1Layout.setVerticalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                .addComponent(jOptionPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setForeground(new java.awt.Color(204, 255, 204));
+
+        jButton2.setText("Buscar Archivo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2, Short.MAX_VALUE))
+                .addGap(60, 60, 60)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(64, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jInternalFrame1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        /**llamamos el metodo que permite cargar la ventana*/
+        try{
+            JFileChooser archivo = new JFileChooser();
+            archivo.showOpenDialog(this);
+            /**abrimos el archivo seleccionado*/
+            File miarchivo = archivo.getSelectedFile();
+            MyCalculator calculadora;
+            calculadora = new MyCalculator();
+
+            MyStack<Integer> fifo;
+            fifo = new MyStack<Integer>();
+
+
+            FileReader lector;
+            BufferedReader lector1;
+            String datos;
+            if (miarchivo!=null){
+                try{
+                    lector = new FileReader(miarchivo);
+                    lector1 = new BufferedReader(lector);
+                    int resultado=0;
+                    while ((datos=lector1.readLine())!=null){
+                        String partes[] = datos.split(" ");
+                        for (int i=0; i<partes.length; i++){
+                            try{
+                                fifo.push(Integer.parseInt(partes[i]));
+                            }
+                            catch(NumberFormatException e){
+                               if (partes[i]=="+" || partes[i]=="-" || partes[i]=="*" || partes[i]=="/" ){
+                                    try{
+                                        resultado = calculadora.calculate(fifo.pop(), fifo.pop(), partes[i]);
+                                        fifo.push(resultado);
+                                    }
+                                    catch(ArithmeticException c){
+
+                                    }
+                                } 
+                            }  
+                        }
+                    }
+                    lector1.close();
+                    JOptionPane.showMessageDialog(null, resultado, "Resultado Obtenido", JOptionPane.WARNING_MESSAGE);
+                }
+                catch(FileNotFoundException e){
+
+                }
+                catch(IOException e){
+
+                }
+
+                    }
+                }
+        catch(Exception x){
+            
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -125,12 +167,13 @@ public class miCalculadora extends javax.swing.JFrame {
                 new miCalculadora().setVisible(true);
             }
         });
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JFileChooser jFileChooser1;
-    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JOptionPane jOptionPane1;
     // End of variables declaration//GEN-END:variables
 }
