@@ -20,13 +20,13 @@ public class MyCalculator implements Calculator {
                 resultado = num1 + num2;
                 break;
             case "-":
-                resultado = num1 - num2;
+                resultado = num2 - num1;
                 break;
             case "*":
                 resultado = num1 * num2;
                 break;
             case "/":
-                resultado = num1 / num2;
+                resultado = num2 / num1;
                 break;
         }
         return resultado;

@@ -12,13 +12,18 @@ package hdt2;
 public interface Stack <E>{
     
    public void push(E item);
+   //Añadir uno
    
    public E pop();
+   //Borra el ultimo y lo returna
    
    public E peek();
+   //Retorna el ultimo valor
    
    public boolean empty();
+   //verifica si esta vacio
    
    public int size();
+   // 
    
 }

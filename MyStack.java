@@ -17,6 +17,7 @@ public class MyStack<E> implements Stack<E> {
     
     public MyStack(){
     
+        //Crea un vector tamaño 10 y cuando alcance el maximo le suma 2 
     mivector = new Vector<>(10,2);
     System.out.println(mivector);
             
@@ -25,6 +26,7 @@ public class MyStack<E> implements Stack<E> {
     
     @Override
     public void push(E item){
+        //
         mivector.addElement(item); 
     }
    
